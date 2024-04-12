@@ -12,4 +12,6 @@ public class OrderDTO
     public TechnologyDTO Technology {get; set;}
     public int WheelsId {get; set;}
     public WheelsDTO Wheels {get; set;}
+    public int StyleId {get; set;}
+    public StyleDTO Style {get; set;}
 }
