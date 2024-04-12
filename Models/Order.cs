@@ -8,4 +8,5 @@ public class Order
     public int InteriorId {get; set;}
     public int TechnologyId {get; set;}
     public int WheelsId {get; set;}
+    public int StyleId {get; set;}
 }
