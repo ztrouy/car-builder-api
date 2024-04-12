@@ -330,7 +330,8 @@ app.MapGet("/orders", () =>
                 Id = style.Id,
                 Type = style.Type,
                 PriceMultiplier = style.PriceMultiplier
-            }
+            },
+            Price = (paintColor.Price + interior.Price + technology.Price + wheel.Price) * style.PriceMultiplier
         });
     }
 
