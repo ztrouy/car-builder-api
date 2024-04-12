@@ -136,6 +136,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 1,
         Timestamp = new DateTime(2022, 7, 15),
+        IsFulfilled = true,
         PaintId = 1,
         InteriorId = 1,
         TechnologyId = 1,
@@ -146,6 +147,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 2,
         Timestamp = new DateTime(2022, 9, 27),
+        IsFulfilled = true,
         PaintId = 2,
         InteriorId = 2,
         TechnologyId = 2,
@@ -156,6 +158,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 3,
         Timestamp = new DateTime(2023, 4, 9),
+        IsFulfilled = false,
         PaintId = 3,
         InteriorId = 3,
         TechnologyId = 3,
@@ -166,6 +169,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 4,
         Timestamp = new DateTime(2023, 7, 19),
+        IsFulfilled = false,
         PaintId = 4,
         InteriorId = 4,
         TechnologyId = 4,
@@ -176,6 +180,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 5,
         Timestamp = new DateTime(2023, 10, 23),
+        IsFulfilled = true,
         PaintId = 2,
         InteriorId = 4,
         TechnologyId = 4,
@@ -186,6 +191,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 6,
         Timestamp = new DateTime(2023, 11, 12),
+        IsFulfilled = true,
         PaintId = 4,
         InteriorId = 3,
         TechnologyId = 4,
@@ -196,6 +202,7 @@ List<Order> orders = new List<Order>()
     {
         Id = 7,
         Timestamp = new DateTime(2024, 1, 3),
+        IsFulfilled = false,
         PaintId = 3,
         InteriorId = 4,
         TechnologyId = 4,
@@ -295,6 +302,7 @@ app.MapGet("/orders", () =>
         {
             Id = order.Id,
             Timestamp = order.Timestamp,
+            IsFulfilled = order.IsFulfilled,
             PaintId = order.PaintId,
             PaintColor = new PaintColorDTO
             {
@@ -359,6 +367,7 @@ app.MapPost("/orders", (Order order) =>
     {
         Id = order.Id,
         Timestamp = order.Timestamp,
+        IsFulfilled = order.IsFulfilled,
         PaintId = order.PaintId,
         PaintColor = new PaintColorDTO
         {
