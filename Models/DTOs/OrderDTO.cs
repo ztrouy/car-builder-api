@@ -14,4 +14,5 @@ public class OrderDTO
     public WheelsDTO Wheels {get; set;}
     public int StyleId {get; set;}
     public StyleDTO Style {get; set;}
+    public decimal Price {get; set;}
 }
