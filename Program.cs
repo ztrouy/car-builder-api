@@ -109,6 +109,27 @@ List<Wheels> wheels = new List<Wheels>()
         Style = "18-inch Pair Spoke Black"
     }
 };
+List<Style> styles = new List<Style>()
+{
+    new Style()
+    {
+        Id = 1,
+        Type = "Car",
+        PriceMultiplier = 1.0M
+    },
+    new Style()
+    {
+        Id = 2,
+        Type = "SUV",
+        PriceMultiplier = 1.5M
+    },
+    new Style()
+    {
+        Id = 3,
+        Type = "Truck",
+        PriceMultiplier = 2.25M
+    }
+};
 List<Order> orders = new List<Order>()
 {
     new Order()
@@ -118,7 +139,8 @@ List<Order> orders = new List<Order>()
         PaintId = 1,
         InteriorId = 1,
         TechnologyId = 1,
-        WheelsId = 1
+        WheelsId = 1,
+        StyleId = 1
     },
     new Order()
     {
@@ -127,7 +149,8 @@ List<Order> orders = new List<Order>()
         PaintId = 2,
         InteriorId = 2,
         TechnologyId = 2,
-        WheelsId = 2
+        WheelsId = 2,
+        StyleId = 2
     },
     new Order()
     {
@@ -136,7 +159,8 @@ List<Order> orders = new List<Order>()
         PaintId = 3,
         InteriorId = 3,
         TechnologyId = 3,
-        WheelsId = 3
+        WheelsId = 3,
+        StyleId = 3
     },
     new Order()
     {
@@ -145,7 +169,8 @@ List<Order> orders = new List<Order>()
         PaintId = 4,
         InteriorId = 4,
         TechnologyId = 4,
-        WheelsId = 4
+        WheelsId = 4,
+        StyleId = 1
     },
     new Order()
     {
@@ -154,7 +179,8 @@ List<Order> orders = new List<Order>()
         PaintId = 2,
         InteriorId = 4,
         TechnologyId = 4,
-        WheelsId = 1
+        WheelsId = 1,
+        StyleId = 1
     },
     new Order()
     {
@@ -163,7 +189,8 @@ List<Order> orders = new List<Order>()
         PaintId = 4,
         InteriorId = 3,
         TechnologyId = 4,
-        WheelsId = 2
+        WheelsId = 2,
+        StyleId = 2
     },
     new Order()
     {
@@ -172,7 +199,8 @@ List<Order> orders = new List<Order>()
         PaintId = 3,
         InteriorId = 4,
         TechnologyId = 4,
-        WheelsId = 1
+        WheelsId = 1,
+        StyleId = 2
     }
 };
 
@@ -241,6 +269,16 @@ app.MapGet("/wheels", () =>
     });
 });
 
+app.MapGet("/styles", () =>
+{
+    return styles.Select(style => new StyleDTO
+    {
+        Id = style.Id,
+        Type = style.Type,
+        PriceMultiplier = style.PriceMultiplier
+    });
+});
+
 app.MapGet("/orders", () =>
 {
     List<OrderDTO> orderDTOs = new List<OrderDTO>();
@@ -251,6 +289,7 @@ app.MapGet("/orders", () =>
         Interior interior = interiors.FirstOrDefault(interior => interior.Id == order.InteriorId);
         Technology technology = technologies.FirstOrDefault(technology => technology.Id == order.TechnologyId);
         Wheels wheel = wheels.FirstOrDefault(wheel => wheel.Id == order.WheelsId);
+        Style style = styles.FirstOrDefault(style => style.Id == order.StyleId);
 
         orderDTOs.Add(new OrderDTO()
         {
@@ -284,6 +323,13 @@ app.MapGet("/orders", () =>
                 Id = wheel.Id,
                 Price = wheel.Price,
                 Style = wheel.Style
+            },
+            StyleId = order.StyleId,
+            Style = new StyleDTO
+            {
+                Id = style.Id,
+                Type = style.Type,
+                PriceMultiplier = style.PriceMultiplier
             }
         });
     }
@@ -297,8 +343,9 @@ app.MapPost("/orders", (Order order) =>
     Interior interior = interiors.FirstOrDefault(interior => interior.Id == order.InteriorId);
     Technology technology = technologies.FirstOrDefault(technology => technology.Id == order.TechnologyId);
     Wheels wheel = wheels.FirstOrDefault(wheel => wheel.Id == order.WheelsId);
+    Style style = styles.FirstOrDefault(style => style.Id == order.StyleId);
 
-    if (paintColor == null | interior == null | technology == null | wheel == null)
+    if (paintColor == null | interior == null | technology == null | wheel == null | style == null)
     {
         return Results.BadRequest();
     }
@@ -339,6 +386,13 @@ app.MapPost("/orders", (Order order) =>
             Id = wheel.Id,
             Price = wheel.Price,
             Style = wheel.Style
+        },
+        StyleId = order.StyleId,
+        Style = new StyleDTO
+        {
+            Id = style.Id,
+            Type = style.Type,
+            PriceMultiplier = style.PriceMultiplier
         }
     });
 });
