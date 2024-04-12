@@ -4,6 +4,7 @@ public class OrderDTO
 {
     public int Id {get; set;}
     public DateTime Timestamp {get; set;}
+    public bool IsFulfilled {get; set;}
     public int PaintId {get; set;}
     public PaintColorDTO PaintColor {get; set;}
     public int InteriorId {get; set;}
