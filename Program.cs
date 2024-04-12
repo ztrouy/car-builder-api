@@ -292,55 +292,58 @@ app.MapGet("/orders", () =>
 
     foreach (Order order in orders)
     {
-        PaintColor paintColor = paintColors.FirstOrDefault(paintColor => paintColor.Id == order.PaintId);
-        Interior interior = interiors.FirstOrDefault(interior => interior.Id == order.InteriorId);
-        Technology technology = technologies.FirstOrDefault(technology => technology.Id == order.TechnologyId);
-        Wheels wheel = wheels.FirstOrDefault(wheel => wheel.Id == order.WheelsId);
-        Style style = styles.FirstOrDefault(style => style.Id == order.StyleId);
-
-        orderDTOs.Add(new OrderDTO()
+        if (!order.IsFulfilled)
         {
-            Id = order.Id,
-            Timestamp = order.Timestamp,
-            IsFulfilled = order.IsFulfilled,
-            PaintId = order.PaintId,
-            PaintColor = new PaintColorDTO
-            {
-                Id = paintColor.Id,
-                Price = paintColor.Price,
-                Color = paintColor.Color
-            },
-            InteriorId = order.InteriorId,
-            Interior = new InteriorDTO
-            {
-                Id = interior.Id,
-                Price = interior.Price,
-                Material = interior.Material
+            PaintColor paintColor = paintColors.FirstOrDefault(paintColor => paintColor.Id == order.PaintId);
+            Interior interior = interiors.FirstOrDefault(interior => interior.Id == order.InteriorId);
+            Technology technology = technologies.FirstOrDefault(technology => technology.Id == order.TechnologyId);
+            Wheels wheel = wheels.FirstOrDefault(wheel => wheel.Id == order.WheelsId);
+            Style style = styles.FirstOrDefault(style => style.Id == order.StyleId);
 
-            },
-            TechnologyId = order.TechnologyId,
-            Technology = new TechnologyDTO
+            orderDTOs.Add(new OrderDTO()
             {
-                Id = technology.Id,
-                Price = technology.Price,
-                Package = technology.Package
-            },
-            WheelsId = order.WheelsId,
-            Wheels = new WheelsDTO
-            {
-                Id = wheel.Id,
-                Price = wheel.Price,
-                Style = wheel.Style
-            },
-            StyleId = order.StyleId,
-            Style = new StyleDTO
-            {
-                Id = style.Id,
-                Type = style.Type,
-                PriceMultiplier = style.PriceMultiplier
-            },
-            Price = (paintColor.Price + interior.Price + technology.Price + wheel.Price) * style.PriceMultiplier
-        });
+                Id = order.Id,
+                Timestamp = order.Timestamp,
+                IsFulfilled = order.IsFulfilled,
+                PaintId = order.PaintId,
+                PaintColor = new PaintColorDTO
+                {
+                    Id = paintColor.Id,
+                    Price = paintColor.Price,
+                    Color = paintColor.Color
+                },
+                InteriorId = order.InteriorId,
+                Interior = new InteriorDTO
+                {
+                    Id = interior.Id,
+                    Price = interior.Price,
+                    Material = interior.Material
+
+                },
+                TechnologyId = order.TechnologyId,
+                Technology = new TechnologyDTO
+                {
+                    Id = technology.Id,
+                    Price = technology.Price,
+                    Package = technology.Package
+                },
+                WheelsId = order.WheelsId,
+                Wheels = new WheelsDTO
+                {
+                    Id = wheel.Id,
+                    Price = wheel.Price,
+                    Style = wheel.Style
+                },
+                StyleId = order.StyleId,
+                Style = new StyleDTO
+                {
+                    Id = style.Id,
+                    Type = style.Type,
+                    PriceMultiplier = style.PriceMultiplier
+                },
+                Price = (paintColor.Price + interior.Price + technology.Price + wheel.Price) * style.PriceMultiplier
+            });
+        }
     }
 
     return Results.Ok(orderDTOs);
