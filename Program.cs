@@ -345,8 +345,7 @@ app.MapGet("/orders", (int? paintId) =>
                     Id = style.Id,
                     Type = style.Type,
                     PriceMultiplier = style.PriceMultiplier
-                },
-                Price = (paintColor.Price + interior.Price + technology.Price + wheel.Price) * style.PriceMultiplier
+                }
             });
         }
     }
@@ -378,7 +377,7 @@ app.MapPost("/orders", (Order order) =>
     order.Timestamp = DateTime.Now;
     orders.Add(order);
 
-    return Results.Created($"/orders/{order.Id}", new OrderDTO
+    OrderDTO createdOrder = new OrderDTO()
     {
         Id = order.Id,
         Timestamp = order.Timestamp,
@@ -419,7 +418,9 @@ app.MapPost("/orders", (Order order) =>
             Type = style.Type,
             PriceMultiplier = style.PriceMultiplier
         }
-    });
+    };
+    
+    return Results.Created($"/orders/{order.Id}", createdOrder);
 });
 
 app.MapPost("/orders/{id}/fulfill", (int id) => 
