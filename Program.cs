@@ -286,8 +286,13 @@ app.MapGet("/styles", () =>
     });
 });
 
-app.MapGet("/orders", () =>
+app.MapGet("/orders", (int? paintId) =>
 {
+    if (paintId != null & paintColors.FirstOrDefault(paintColor => paintColor.Id == paintId) == null)
+    {
+        return Results.BadRequest();
+    }
+    
     List<OrderDTO> orderDTOs = new List<OrderDTO>();
 
     foreach (Order order in orders)
@@ -346,7 +351,14 @@ app.MapGet("/orders", () =>
         }
     }
 
-    return Results.Ok(orderDTOs);
+    List<OrderDTO> filteredOrders = orderDTOs;
+
+    if (paintId != null)
+    {
+        filteredOrders = filteredOrders.Where(order => order.PaintId == paintId).ToList();
+    }
+
+    return Results.Ok(filteredOrders);
 });
 
 app.MapPost("/orders", (Order order) =>
