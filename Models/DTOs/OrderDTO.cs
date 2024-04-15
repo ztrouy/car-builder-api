@@ -15,5 +15,10 @@ public class OrderDTO
     public WheelsDTO Wheels {get; set;}
     public int StyleId {get; set;}
     public StyleDTO Style {get; set;}
-    public decimal Price {get; set;}
+    public decimal Price {
+        get {
+            decimal sum = (PaintColor.Price + Interior.Price + Technology.Price + Wheels.Price) * Style.PriceMultiplier;
+            return sum;
+        }
+    }
 }
