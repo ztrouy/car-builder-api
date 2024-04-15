@@ -286,7 +286,7 @@ app.MapGet("/styles", () =>
     });
 });
 
-app.MapGet("/orders", () =>
+app.MapGet("/orders", (int? paintId) =>
 {
     List<OrderDTO> orderDTOs = new List<OrderDTO>();
 
@@ -346,7 +346,14 @@ app.MapGet("/orders", () =>
         }
     }
 
-    return Results.Ok(orderDTOs);
+    List<OrderDTO> filteredOrders = orderDTOs;
+
+    if (paintId != null)
+    {
+        filteredOrders = filteredOrders.Where(order => order.PaintId == paintId).ToList();
+    }
+
+    return Results.Ok(filteredOrders);
 });
 
 app.MapPost("/orders", (Order order) =>
