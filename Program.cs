@@ -288,6 +288,11 @@ app.MapGet("/styles", () =>
 
 app.MapGet("/orders", (int? paintId) =>
 {
+    if (paintId != null & paintColors.FirstOrDefault(paintColor => paintColor.Id == paintId) == null)
+    {
+        return Results.BadRequest();
+    }
+    
     List<OrderDTO> orderDTOs = new List<OrderDTO>();
 
     foreach (Order order in orders)
